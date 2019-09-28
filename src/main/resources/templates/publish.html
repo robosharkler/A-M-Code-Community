@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>publish - Texas A&M Code Community</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/community.css">
+
+    <script src="js/bootstrap.min.js" type="application/javascript"></script>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Texas A&M Code Community</span>
+            </button>
+            <a class="navbar-brand" href="#">Texas A&M Code Community</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <form class="navbar-form navbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Search your topic">
+                </div>
+                <button type="submit" class="btn btn-default">Search</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown" th:if="${session.user!=null}">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" th:text="${session.user.getName() }">Me<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Message</a></li>
+                        <li><a href="#">Profile</a></li>
+                        <li><a href="#">Log out</a></li>
+                    </ul>
+                </li>
+
+                <li th:if="${session.user==null}">
+                    <a href="https://github.com/login/oauth/authorize?client_id=24d4c83f128bf98d26a2&redirect_uri=http://localhost:8080/callback&scope=user&state=1">Log in</a>
+                </li>
+
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Publish</h2>
+            <hr>
+            <form action="">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Title">
+                </div>
+                <div class="form-group">
+                    <label for="description">Detail</label>
+                    <textarea name="description" id="description" class="form-control" cols="30" rows="10"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="tag">Tag</label>
+                    <input type="text" class="form-control" id="tag" name="tag" placeholder="Tag your questions, using (,) to split">
+                </div>
+
+                <button type="submit" class="btn btn-success btn-publish">Submit</button>
+
+            </form>
+        </div>
+        <div class="col-sm-12 col-md-3 aw-side-bar hidden-xs">
+            <!-- 问题发起指南 -->
+            <div class="aw-mod publish-help">
+                <div class="mod-head">
+                    <h3>问题发起指南</h3>
+                </div>
+                <div class="mod-body">
+                    <p><b>• 问题标题:</b> 请用<b style="color:red">精简</b>的语言描述您发布的问题，不超过25字</p>
+                    <p><b>• 问题补充:</b> 详细补充您的问题内容，并确保问题描述清晰直观, 并提供一些相关的资料：							</p><li>服务器运行环境信息；</li>
+                    <li>软件版本；</li>
+                    <li>问题发生的上下文信息；</li>
+                    <li>可以完整复现问题的代码（如可直接运行于 Kibana Console 的复现流程）；</li>
+                    <li>补充完整的异常和错误信息；</li>
+                    <li>注意阅读格式友好，代码和异常信息请用代码标签格式化张贴；</li>
+
+                    <p></p>
+                    <p><b>• 选择标签:</b> 选择一个或者多个合适的标签，不超过<b style="color:red">10</b>个字</p>
+                    <p><b>• 关于积分：</b> 发起一个问题会消耗您 20 个积分, 每多一个回复你将获得 5 个积分的奖励 ,为了您的利益, 在发起问题的时候希望能够更好的描述您的问题以及多使用站内搜索功能.</p>
+                </div>
+            </div>
+            <!-- end 问题发起指南 -->
+        </div>
+
+    </div>
+</div>
+</body>
+</html>
