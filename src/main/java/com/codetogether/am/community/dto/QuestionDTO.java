@@ -1,9 +1,10 @@
-package com.codetogether.am.community.Model;
+package com.codetogether.am.community.dto;
 
+import com.codetogether.am.community.Model.User;
 import lombok.Data;
 
 @Data
-public class Question {
+public class QuestionDTO {
     private Integer id;
     private String title;
     private String description;
@@ -14,4 +15,5 @@ public class Question {
     private Integer viewCount;
     private Integer commentCount;
     private Integer likeCount;
+    private User user;
 }
