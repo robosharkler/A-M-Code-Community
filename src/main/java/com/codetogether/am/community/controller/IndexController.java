@@ -2,6 +2,7 @@ package com.codetogether.am.community.controller;
 
 import com.codetogether.am.community.Model.Question;
 import com.codetogether.am.community.Model.User;
+import com.codetogether.am.community.dto.PaginationDTO;
 import com.codetogether.am.community.dto.QuestionDTO;
 import com.codetogether.am.community.mapper.QuestionMapper;
 import com.codetogether.am.community.mapper.UserMapper;
@@ -27,7 +28,9 @@ public class IndexController {
 
     @GetMapping("/")
     public String hello(HttpServletRequest request,
-                        Model model){
+                        Model model,
+                        @RequestParam(name = "page",defaultValue = "1") Integer page,
+                        @RequestParam(name = "size",defaultValue = "5") Integer size){
 
         Cookie[] cookies = request.getCookies();
 
@@ -43,8 +46,8 @@ public class IndexController {
                 }
             }
         }
-        List<QuestionDTO> questionList = questionService.list();
-        model.addAttribute("questions",questionList);
+        PaginationDTO paginationDTO = questionService.list(page,size);
+        model.addAttribute("paginationDTO",paginationDTO);
         return "index";
     }
 }
