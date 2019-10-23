@@ -17,6 +17,58 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span th:text="${sectionName}"></span></h2>
             <hr>
+
+            <div class="media" th:each="question: ${paginationDTO.questionDTOs}">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object img-rounded"
+                             th:src="${question.user.avatarUrl}">
+                    </a>
+                </div>
+                <div class="media-body">
+                    <h4 class="media-heading" th:text="${question.title}"></h4>
+                    <span th:text="${question.description}"></span>
+                    <br>
+                    <span class="text-desc">
+                        • <span th:text="${question.commentCount}"></span> 个回复
+                        • <span th:text="${question.viewCount}"></span> 次浏览
+                        • <span th:text="${#dates.format(question.gmtModified,'yyyy-MM-dd HH:mm:ss')}"></span>
+                    </span>
+                </div>
+            </div>
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+
+                    <li th:if="${paginationDTO.showFirstPage}">
+                        <a th:href="@{'/profile/'+${section}(page=${1})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;&laquo;</span>
+                        </a>
+                    </li>
+                    <li th:if="${paginationDTO.showPrevious}">
+                        <a th:href="@{'/profile/'+${section}(page=${paginationDTO.currentPage -1})}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+
+                    <li th:each="page: ${paginationDTO.pages}" th:class="${paginationDTO.currentPage==page}? 'active': ''">
+                        <a th:href="@{'/profile/'+${section}(page=${page})}" th:text="${page}"></a>
+                    </li>
+                    <li th:if="${paginationDTO.showNext}">
+                        <a th:href="@{'/profile/'+${section}(page=${paginationDTO.currentPage+1})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                    <li th:if="${paginationDTO.showEndPage}">
+                        <a th:href="@{'/profile/'+${section}(page=${paginationDTO.totalPage})}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
             <div class="list-group profile-section">
