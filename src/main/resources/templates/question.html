@@ -1,10 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title th:text="question"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/community.css">
+    <script src="/js/jquery-3.4.1.min.js"></script>
+    <script src="/js/bootstrap.min.js" type="application/javascript"></script>
 </head>
+
 <body>
+<div th:insert="navigation::nav"></div>
+<div class="container-fluid main">
+    <div class="row">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>Question</h2>
+            <hr>
+            <h5>
+            <div class="media" >
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object img-rounded"
+                             th:src="${creator.getAvatarUrl()}">
+                    </a>
+                </div>
+                <div class="media-body">
+
+                    <h4 class="media-heading" th:text="${questionDTO.getTitle()}"></h4>
+                    <span th:text="${questionDTO.getDescription()}"></span>
+                    <br>
+                    <span class="text-desc">
+                            • <span th:text="${questionDTO.getCommentCount()}"></span> 个回复
+                            • <span th:text="${questionDTO.getViewCount()}"></span> 次浏览
+                        </span>
+                </div>
+            </div>
+            </h5>
+
+
+            <form action="/publish" method="post">
+                <div class="form-group">
+                    <label for="title">Title</label>
+                    <input type="text" class="form-control" th:value="${questionDTO.getTitle()}" id="title" name="title" placeholder="Title">
+                </div>
+                <div class="form-group">
+                    <label for="description">Detail</label>
+                    <textarea name="description" id="description" th:text="${questionDTO.getDescription()}" class="form-control" cols="30" rows="10" ></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="tag">Tag</label>
+                    <input type="text" class="form-control" id="tag" name="tag" placeholder="Tag your questions, using (,) to split" th:value="${questionDTO.getTag()}">
+                </div>
+            </form>
+
+
+        </div>
+    </div>
+</div>
+
 
 </body>
 </html>

@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/community.css">
     <script src="js/jquery-3.4.1.min.js"></script>
-
     <script src="js/bootstrap.min.js" type="application/javascript"></script>
 </head>
 <body>
@@ -26,7 +25,8 @@
                     </a>
                 </div>
                 <div class="media-body">
-                    <h4 class="media-heading" th:text="${question.title}"></h4>
+
+                    <h4><a th:href="@{'/question/'+${question.getId()}}"  class="media-heading" th:text="${question.title}"></a> </h4>
                     <span th:text="${question.description}"></span>
                      <br>
                     <span class="text-desc">
@@ -41,27 +41,27 @@
                 <ul class="pagination">
 
                     <li th:if="${paginationDTO.showFirstPage}">
-                        <a href="/?page=1" aria-label="Previous">
+                        <a href="/search?page=1" aria-label="Previous">
                             <span aria-hidden="true">&laquo;&laquo;</span>
                         </a>
                     </li>
                     <li th:if="${paginationDTO.showPrevious}">
-                        <a th:href="@{/(page=${paginationDTO.currentPage -1})}" aria-label="Previous">
+                        <a th:href="@{/search(page=${paginationDTO.currentPage -1})}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
 
 
                     <li th:each="page: ${paginationDTO.pages}" th:class="${paginationDTO.currentPage==page}? 'active': ''">
-                        <a th:href="@{/(page=${page})}" th:text="${page}"></a>
+                        <a th:href="@{/search(page=${page})}" th:text="${page}"></a>
                     </li>
                     <li th:if="${paginationDTO.showNext}">
-                        <a th:href="@{/(page=${paginationDTO.currentPage+1})}" aria-label="Next">
+                        <a th:href="@{/search(page=${paginationDTO.currentPage+1})}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
                     <li th:if="${paginationDTO.showEndPage}">
-                        <a th:href="@{/(page=${paginationDTO.totalPage})}" aria-label="Next">
+                        <a th:href="@{/search(page=${paginationDTO.totalPage})}" aria-label="Next">
                             <span aria-hidden="true">&raquo;&raquo;</span>
                         </a>
                     </li>

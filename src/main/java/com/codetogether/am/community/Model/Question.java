@@ -8,6 +8,7 @@ public class Question {
     private String title;
     private String description;
     private String tag;
+    private  String creatorName;
     private Long gmtCreate;
     private Long gmtModified;
     private Integer creator;

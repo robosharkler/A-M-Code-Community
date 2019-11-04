@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 
 @Controller
 public class ProfileController {
@@ -24,6 +26,7 @@ public class ProfileController {
 
     @GetMapping("/profile/{action}")
     public String profile(HttpServletRequest request,
+                          HttpServletResponse response,
                           @PathVariable(name = "action") String action,
                           Model model,
                           @RequestParam(name = "page",defaultValue = "1") Integer page,
@@ -44,6 +47,22 @@ public class ProfileController {
         }else{
             return "redirect:/";
         }
+        if("logout".equals(action)){
+            //清除session
+            Enumeration<String> em = request.getSession().getAttributeNames();
+            while(em.hasMoreElements()){
+                request.getSession().removeAttribute(em.nextElement().toString());
+            }
+            request.getSession().invalidate();
+
+            Cookie cookie = new Cookie("token",null);
+            cookie.setMaxAge(0);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+
+            return "redirect:/";
+        }
+
 
         if("questions".equals(action)){
             model.addAttribute("section","questions");
@@ -54,7 +73,7 @@ public class ProfileController {
             model.addAttribute("section","replies");
             model.addAttribute("sectionName","Replies");
         }
-        PaginationDTO paginationDTO = questionService.list(user.getId(), page, size);
+        PaginationDTO paginationDTO = questionService.list(user.getName(), page, size);
         model.addAttribute("paginationDTO",paginationDTO);
 
         return "profile";
