@@ -1,7 +1,11 @@
 package com.codetogether.am.community.controller;
 
+import com.codetogether.am.community.Model.Notice;
+import com.codetogether.am.community.Model.Question;
 import com.codetogether.am.community.Model.User;
 import com.codetogether.am.community.dto.PaginationDTO;
+import com.codetogether.am.community.mapper.NoticeMapper;
+import com.codetogether.am.community.mapper.QuestionMapper;
 import com.codetogether.am.community.mapper.UserMapper;
 import com.codetogether.am.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 @Controller
 public class ProfileController {
@@ -23,6 +29,10 @@ public class ProfileController {
     private UserMapper userMapper;
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private QuestionMapper questionMapper;
+    @Autowired
+    private NoticeMapper noticeMapper;
 
     @GetMapping("/profile/{action}")
     public String profile(HttpServletRequest request,
@@ -75,7 +85,20 @@ public class ProfileController {
         }
         PaginationDTO paginationDTO = questionService.list(user.getName(), page, size);
         model.addAttribute("paginationDTO",paginationDTO);
+        List<Notice> notices = noticeMapper.findByAccountId(user.getAccountId());
+        model.addAttribute("notices",notices);
+        List<Question> questions = new ArrayList<>();
+        for(Notice n:notices){
+            questions.add(questionMapper.getById(n.getQuestionId()));
+        }
+        model.addAttribute("noticeQuestions",questions);
 
+        if("replies".equals(action)){
+            for(Notice n:notices){
+                n.setVisited(true);
+                noticeMapper.update(n);
+            }
+        }
         return "profile";
     }
 }

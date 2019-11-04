@@ -1,10 +1,7 @@
 package com.codetogether.am.community.mapper;
 
 import com.codetogether.am.community.Model.Question;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -44,4 +41,8 @@ public interface QuestionMapper {
 
     @Select("select * from question where title like '%${search}%' limit #{limit} offset #{offset}")
     List<Question> listBySearch(@Param("search")String search, @Param(value = "offset") Integer offset, @Param(value = "limit")Integer limit);
+
+    @Update("update question set view_count=#{viewCount},comment_count=#{commentCount} where id=#{id}")
+    public int update(Question question);
+
 }

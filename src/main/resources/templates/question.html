@@ -17,13 +17,13 @@
         <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
             <h2><span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>Question</h2>
             <hr>
-            <h5>
             <div class="media" >
                 <div class="media-left">
                     <a href="#">
                         <img class="media-object img-rounded"
                              th:src="${creator.getAvatarUrl()}">
                     </a>
+                    <span th:text="${creator.getName()}"></span>
                 </div>
                 <div class="media-body">
 
@@ -33,30 +33,50 @@
                     <span class="text-desc">
                             • <span th:text="${questionDTO.getCommentCount()}"></span> 个回复
                             • <span th:text="${questionDTO.getViewCount()}"></span> 次浏览
+                            • <span th:text="${#dates.format(questionDTO.gmtModified,'yyyy-MM-dd HH:mm:ss')}"></span>
+
                         </span>
                 </div>
             </div>
-            </h5>
-
-
-            <form action="/publish" method="post">
-                <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" class="form-control" th:value="${questionDTO.getTitle()}" id="title" name="title" placeholder="Title">
-                </div>
-                <div class="form-group">
-                    <label for="description">Detail</label>
-                    <textarea name="description" id="description" th:text="${questionDTO.getDescription()}" class="form-control" cols="30" rows="10" ></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="tag">Tag</label>
-                    <input type="text" class="form-control" id="tag" name="tag" placeholder="Tag your questions, using (,) to split" th:value="${questionDTO.getTag()}">
-                </div>
-            </form>
-
-
         </div>
+        <div class="col-sm-12 col-md-3 aw-side-bar hidden-xs">
+            <h3>Hot topic(s)</h3>
+        </div>
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+
+            <h2><span class="glyphicon glyphicon-comment" aria-hidden="true"></span>Reply(ies)</h2>
+            <hr>
+            <div class="media" th:each="reply: ${replies}">
+                <div class="media-left">
+                    <a href="#">
+                        <img class="media-object img-rounded"
+                             th:src="${reply.getCreator().getAvatarUrl()}">
+                    </a>
+                    <span th:text="${reply.getCreator().getName()}"></span>
+                </div>
+                <div class="media-body">
+                    <span th:text="${reply.getDescription()}"></span>
+                    <br>
+                    <span class="text-desc">
+                    • <span th:text="${#dates.format(reply.getGmtCreate(),'yyyy-MM-dd HH:mm:ss')}"></span>
+                    </span>
+
+                    <br>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
+            <h2><span class="glyphicon glyphicon-console" aria-hidden="true"></span>Type your reply</h2>
+            <hr>
+            <form th:action="@{/reply/(qId=${questionDTO.getId()})}" method="post">
+                <div class="form-group">
+                    <label for="reply">Reply content</label>
+                    <textarea name="reply" id="reply" class="form-control" cols="30" rows="10" ></textarea>
+                </div>
+                <button type="submit" class="btn btn-success btn-publish">Reply</button>
+            </form>
+        </div>
+
     </div>
 </div>
 
